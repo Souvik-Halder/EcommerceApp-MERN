@@ -32,7 +32,6 @@ exports.getSingleOrder=catchAsyncErrors(async(req,res,next)=>{
     })
 })
 
-
 //Get logged in user orders
 exports.myOrders=catchAsyncErrors(async(req,res,next)=>{
     const orders=await Order.find({user:req.user.id})
