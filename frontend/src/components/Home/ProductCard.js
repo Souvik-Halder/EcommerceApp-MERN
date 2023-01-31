@@ -1,9 +1,9 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
 import ReactStars from 'react-rating-stars-component'
-const Product = ({product}) => {
+const ProductCard = ({product}) => {
     const options = {
-    value:product.ratings,
+    value:product.rating,
     readOnly: true,
     precision: 0.5,
   };
@@ -23,4 +23,4 @@ const Product = ({product}) => {
   )
 }
 
-export default Product
+export default ProductCard
