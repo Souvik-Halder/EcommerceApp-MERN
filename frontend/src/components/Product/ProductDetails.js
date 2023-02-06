@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Carousel from "react-material-ui-carousel";
 import "./ProductDetails.css";
 import { useParams } from "react-router-dom";
@@ -7,7 +7,7 @@ import { clearErrors, getProductDetails } from "../../actions/productAction";
 import {useAlert} from 'react-alert'
 import Loader from '../layout/Loader/Loader'
 import ReactStars from 'react-rating-stars-component'
-import Rating from "./Rating";
+
 import ReviewCard from './ReviewCard.js'
 //match is used in frontend  as the req.params.id is used to fetch the id from url in backend and we don't need to provide any props in this component we just need to use match as describe below
 
@@ -22,7 +22,7 @@ function ProductDetails() {
     (state) => state.productDetails
   );
   const options = {
-    value:product.rating,
+    value:product.ratings,
     readOnly: true,
     precision: 0.5,
   };

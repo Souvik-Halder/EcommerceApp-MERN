@@ -1,7 +1,8 @@
 import React from "react";
 import { ReactNavbar } from "overlay-navbar";
 import logo from '../../../images/logo.png'
-
+import {FaUser} from 'react-icons/fa'
+import {BsSearch ,BsFillCartFill} from 'react-icons/bs'
 const options = {
   burgerColorHover: "#ff8b3d",
   logo,
@@ -13,6 +14,7 @@ const options = {
   link2Text: "Products",
   link3Text: "Contact",
   link4Text: "About",
+  
   link1Url: "/",
   link2Url: "/products",
   link3Url: "/contact",
@@ -25,6 +27,8 @@ const options = {
   nav4justifyContent: "flex-start",
   link1ColorHover: "#eb4034",
   link1Margin: "1vmax",
+ searchIconUrl:"/search",
+ cartIconUrl:"/cart",
   profileIconUrl: "/login",
   profileIconColor: "rgba(35, 35, 35,0.8)",
   searchIconColor: "rgba(35, 35, 35,0.8)",
@@ -36,7 +40,9 @@ const options = {
 };
 
 const Header = () => {
-  return <ReactNavbar {...options} />;
+  return <ReactNavbar {...options} profileIcon={true} ProfileIconElement={FaUser} searchIcon={true} SearchIconElement={BsSearch} 
+  cartIcon={true} CartIconElement={BsFillCartFill}
+  />;
 };
 
 export default Header;

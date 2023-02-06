@@ -19,14 +19,15 @@ class Apifeatures{
         const queryCopy={...this.queryStr}//here we are using spread operator because in js the reference of the object is passed but we
         //need to pass the value here because in case of the reference if we change the value of the actual object then the value of the copy also be changed and we don't want that
         //Removing from that 
-  
+        
         const removeFields=['keyword','page',"limit"];
         removeFields.forEach(key=> delete queryCopy[key])
         //filter for the price
-        // console.log(queryCopy)
+    // console.log(queryCopy)
         let queryStr=JSON.stringify(queryCopy);
+        //putting the $ sign before the gt gte ,lt
         queryStr=queryStr.replace(/\b(gt|gte|lt|lte)\b/g,key=>`$${key}`)
-
+       
         
         this.query=this.query.find(JSON.parse(queryStr));
     

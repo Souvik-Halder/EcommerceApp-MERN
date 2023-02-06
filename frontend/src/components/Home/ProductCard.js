@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import ReactStars from 'react-rating-stars-component'
 const ProductCard = ({product}) => {
     const options = {
-    value:product.rating,
+    value:product.ratings,
     readOnly: true,
     precision: 0.5,
   };
