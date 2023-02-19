@@ -23,11 +23,8 @@ exports.registerUser=catchAsyncErrors(async(req,res,next)=>{
             url:myCloud.secure_url
          }
     });
-    const token=user.getJWTToken();
-    res.status(201).json({
-        success:true,
-        token
-    })
+    sendToken(user,200,res)
+
 })
 
 //Login User
@@ -48,7 +45,7 @@ exports.loginUser=catchAsyncErrors(async(req,res,next)=>{
     if(!isPasswordMatched){
         return next(new Errorhandler("Invalid Email or Password",401));
     }
-  sendToken(user,200,res)
+await  sendToken(user,200,res)
 })
 
 exports.logout=catchAsyncErrors(async(req,res,next)=>{
