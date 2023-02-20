@@ -28,7 +28,6 @@ exports.getAllProducts=catchAsyncErrors( async(req,res,next)=>{
    const apiFeature=new Apifeatures(Product.find(),req.query)
    .search()
    .filter()
-    
 
 
    apiFeature.pagination(resultPerPage)

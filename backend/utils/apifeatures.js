@@ -11,6 +11,7 @@ class Apifeatures{
                 $options:"i"
             }
         }:{};
+
         this.query=this.query.find({...keyword})
         return this
     }
@@ -28,7 +29,7 @@ class Apifeatures{
         //putting the $ sign before the gt gte ,lt
         queryStr=queryStr.replace(/\b(gt|gte|lt|lte)\b/g,key=>`$${key}`)
        
-        
+        // console.log(queryStr)
         this.query=this.query.find(JSON.parse(queryStr));
     
         return this
