@@ -56,6 +56,8 @@ exports.getAllOrders=catchAsyncErrors(async(req,res,next)=>{
         orders,
     })
 })
+
+
 //Update order status - (admin)
 //This route is basically for update the 
 exports.upadateOrder=catchAsyncErrors(async(req,res,next)=>{

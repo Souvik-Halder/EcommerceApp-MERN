@@ -26,8 +26,7 @@ function UserOptions({user}) {
     }
     function logoutUser(){
        dispatch(logout())
-       
-        navigate('/logout');
+        navigate('/login');
     }
 
     const options = [

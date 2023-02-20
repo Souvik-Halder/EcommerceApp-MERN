@@ -101,11 +101,11 @@ const LoginSignUp = ({ history, location }) => {
   };
 
   return (
-    <Fragment>
+    <>
       {loading ? (
         <Loader />
       ) : (
-        <Fragment>
+        <>
           <div className="LoginSignUpContainer">
             <div className="LoginSignUpBox">
               <div>
@@ -192,9 +192,9 @@ const LoginSignUp = ({ history, location }) => {
               </form>
             </div>
           </div>
-        </Fragment>
+        </>
       )}
-    </Fragment>
+    </>
   );
 };
 

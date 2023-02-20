@@ -16,6 +16,10 @@ import store  from'./store';
 import { laodUser } from './actions/userAction';
 import { useSelector } from 'react-redux';
 import Profile from './components/User/Profile.js'
+import UpdateProfile from "./components/User/UpdateProfile.js"
+import UpdatePassword from "./components/User/UpdatePassword.js"
+import ForgotPassword from "./components/User/ForgotPassword.js"
+
 axios.defaults.withCredentials=true
 function App() {
 
@@ -43,8 +47,12 @@ function App() {
       <Route path="/products" element={<Products/>}/>
       <Route path="/search" element={<Search />}/>
       <Route path="/products/:keyword" element={<Products/>}/>
-     { isAuthenticated && < Route path="/account" element={<Profile/>}/>}
+     { isAuthenticated && < Route path="/account" element={<Profile/>}/>
+     }
+      <Route path="/password/forgot" element={<ForgotPassword/>}/>
       <Route path='/login' element={<LoginSignUp/>}/>
+      { isAuthenticated && < Route path="/me/update" element={<UpdateProfile/>}/>}
+      { isAuthenticated && < Route path="/password/update" element={<UpdatePassword/>}/>}
     
       </Routes>
       <Footer/>

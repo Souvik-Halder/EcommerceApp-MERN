@@ -1,7 +1,14 @@
-import {LOGIN_FAIL,LOGIN_SUCCESS,CLEAR_ERRORS, LOGIN_REQUEST, REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS, REGISTER_USER_FAIL, LOAD_USER_REQUEST, LOAD_USER_FAIL, LOGOUT_FAIL,LOGOUT_SUCCESS,LOAD_USER_SUCCESS} from '../constants/userConstant'
+import {LOGIN_FAIL,LOGIN_SUCCESS,CLEAR_ERRORS,  UPDATE_PROFILE_FAIL,
+    UPDATE_PROFILE_REQUEST,
+    UPDATE_PROFILE_SUCCESS,
+    UPDATE_PROFILE_RESET, LOGIN_REQUEST, REGISTER_USER_REQUEST, REGISTER_USER_SUCCESS, REGISTER_USER_FAIL, LOAD_USER_REQUEST, LOAD_USER_FAIL,  UPDATE_PASSWORD_REQUEST,
+    
+    UPDATE_PASSWORD_FAIL,
+    UPDATE_PASSWORD_SUCCESS, LOGOUT_FAIL,LOGOUT_SUCCESS,LOAD_USER_SUCCESS, FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAIL} from '../constants/userConstant'
 
 import axios from 'axios';
 
+//Login User
 export const login=(email,password)=>async (dispatch)=>{
     try{
         dispatch({type:LOGIN_REQUEST})
@@ -18,7 +25,7 @@ export const login=(email,password)=>async (dispatch)=>{
     }
 }
 
-
+//Register User
 export const register=(userData)=>async (dispatch)=>{
     try{
         dispatch({type:REGISTER_USER_REQUEST})
@@ -66,6 +73,63 @@ export const logout=()=>async (dispatch)=>{
         dispatch({type:LOGOUT_SUCCESS})
     }catch(error){
         dispatch({type:LOAD_USER_FAIL,payload:error.response.data.message})
+    }
+}
+
+//Update Profile 
+export const updateProfile=(userData)=>async (dispatch)=>{
+    try{
+        dispatch({type:UPDATE_PROFILE_REQUEST})
+        
+    const config = { headers: { "Content-Type": "application/form-data" } };
+        const {data}=await axios.put(
+            `http://localhost:4000/api/v1/me/update`,
+            userData,
+            config,
+        )
+        console.log(data)
+        dispatch({type:UPDATE_PROFILE_SUCCESS,payload:data.success})
+    }catch(error){
+        console.log(error)
+        dispatch({type:UPDATE_PROFILE_FAIL,payload:error.message})
+    }
+}
+
+
+//Update Password 
+export const updatePassword=(passwords)=>async (dispatch)=>{
+    try{
+        dispatch({type:UPDATE_PASSWORD_REQUEST})
+        
+    const config = { headers: { "Content-Type": "application/json" } };
+        const {data}=await axios.put(
+            `http://localhost:4000/api/v1/password/update`,
+            passwords,
+            config,
+        )
+       
+        dispatch({type:UPDATE_PASSWORD_SUCCESS,payload:data.success})
+    }catch(error){
+        
+        dispatch({type:UPDATE_PASSWORD_FAIL,payload:error.response.data.error})
+    }
+}
+//Forgot Password
+export const forgotPassword=(email)=>async (dispatch)=>{
+    try{
+        dispatch({type:FORGOT_PASSWORD_REQUEST})
+        
+    const config = { headers: { "Content-Type": "application/json" } };
+        const {data}=await axios.post(
+            `http://localhost:4000/api/v1/password/forgot`,
+            email,
+            config
+        )
+        console.log(data)
+        dispatch({type:FORGOT_PASSWORD_SUCCESS,payload:data.message})
+    }catch(error){
+        console.log(error)
+        dispatch({type:FORGOT_PASSWORD_FAIL,payload:error.response.data.error})
     }
 }
 
