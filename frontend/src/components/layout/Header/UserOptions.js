@@ -29,6 +29,7 @@ function UserOptions({user}) {
         navigate('/orders');
     }
     function logoutUser(){
+      window.localStorage.clear();
        dispatch(logout())
         navigate('/login');
     }

@@ -1,7 +1,7 @@
 import React, { Fragment, useRef, useState, useEffect } from "react";
 import "./LoginSignUp.css";
 import Loader from "../layout/Loader/Loader";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -10,7 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, login, register } from "../../actions/userAction";
 import { useAlert } from "react-alert";
 
-const LoginSignUp = ({ history, location }) => {
+const LoginSignUp = ({ history }) => {
+  const location=useLocation()
   const dispatch = useDispatch();
   const alert = useAlert();
 
@@ -35,7 +36,7 @@ const LoginSignUp = ({ history, location }) => {
 
   const [avatar, setAvatar] = useState("/Profile.png");
   const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
-
+ 
   const loginSubmit = (e) => {
     e.preventDefault();
     dispatch(login(loginEmail, loginPassword));
@@ -79,7 +80,9 @@ const LoginSignUp = ({ history, location }) => {
     }
 
     if (isAuthenticated) {
-      navigate('/account');
+      const redirect=location.search?location.search.split("=")[1]:"account"; 
+      console.log(redirect);
+      navigate("/"+redirect);
     }
   }, [dispatch, error, alert, isAuthenticated, navigate]);
 

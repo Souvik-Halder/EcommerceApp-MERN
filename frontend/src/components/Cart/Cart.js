@@ -2,7 +2,7 @@ import React from 'react'
 import CartItemCard from './CartItemCard.js'
 import './Cart.css'
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { addItemsToCart,removeItemsFromCart } from '../../actions/cartAction.js';
 
 import { Typography } from '@mui/material';
@@ -19,7 +19,7 @@ const Cart = () => {
       }
       dispatch(addItemsToCart(id, newQty));
     };
-  
+  const navigate=useNavigate();
     const decreaseQuantity = (id, quantity) => {
       const newQty = quantity - 1;
       if (1 >= quantity) {
@@ -34,7 +34,7 @@ const Cart = () => {
     };
   
     const checkoutHandler = () => {
-     console.log("hi")
+     navigate('/login?redirect=shipping')
     };
     return (
   
