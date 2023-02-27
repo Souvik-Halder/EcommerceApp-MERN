@@ -23,9 +23,10 @@ import UpdatePassword from "./components/User/UpdatePassword.js"
 import ForgotPassword from "./components/User/ForgotPassword.js"
 import ConfirmOrder from './components/Cart/ConfirmOrder.js'
  import Payment from "./components/Cart/Payment.js"
+import MyOrders from "./components/Order/MyOrders.js"
 import ResetPassword from "./components/User/ResetPassword.js"
 import Cart from './components/Cart/Cart.js'
-import OrderSuccess from './components/OrderSuccess.js'
+import OrderSuccess from './components/Cart/OrderSuccess.js'
 import { Elements } from '@stripe/react-stripe-js';
 axios.defaults.withCredentials=true
 function App() {
@@ -84,7 +85,8 @@ useEffect(()=>{
      }
       { isAuthenticated && < Route path="/success" element={<OrderSuccess/>}/>
      }
-     
+     { isAuthenticated && < Route path="/orders" element={<MyOrders/>}/>
+     }
     <Route path="/cart" element={<Cart/>}/>
 
       </Routes>
