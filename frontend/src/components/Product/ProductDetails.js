@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import Carousel from "react-material-ui-carousel";
 import "./ProductDetails.css";
 import { useParams } from "react-router-dom";
@@ -7,14 +7,28 @@ import { clearErrors, getProductDetails } from "../../actions/productAction";
 import {useAlert} from 'react-alert'
 import Loader from '../layout/Loader/Loader'
 import ReactStars from 'react-rating-stars-component'
-
+import {addItemsToCart} from '../../actions/cartAction'
 import ReviewCard from './ReviewCard.js'
 //match is used in frontend  as the req.params.id is used to fetch the id from url in backend and we don't need to provide any props in this component we just need to use match as describe below
 
 function ProductDetails() {
   const { id } = useParams();
 
+  const [quantity, setquantity] = useState(1);
+ const increaseQuantity=()=>{
+ if(product.Stock<=quantity) return;
  
+  const qty=quantity+1;
+  setquantity(qty)
+ }
+const decreaseQuantity=()=>{
+  if(1>=quantity) return;
+ 
+  const qty=quantity-1;
+  setquantity(qty)
+
+}
+
 
   const dispatch = useDispatch();
   const alert =useAlert()
@@ -26,6 +40,11 @@ function ProductDetails() {
     readOnly: true,
     precision: 0.5,
   };
+
+const addToCartHandler=()=>{
+     dispatch(addItemsToCart(id,quantity))
+     alert.success("Item added to cart")
+}
 
   useEffect(() => {
 
@@ -72,13 +91,13 @@ function ProductDetails() {
                 <h1>{`₹${product.price}`}</h1>
                 <div className="detailsBlock-3-1">
                   <div className="detailsBlock-3-1-1">
-                    <button >-</button>
-                    <input value={1}   type="number" />
-                    <button>+</button>
+                    <button onClick={decreaseQuantity} >-</button>
+                    <input value={quantity} readOnly  type="number" />
+                    <button onClick={increaseQuantity}>+</button>
                   </div>
                   <button
                     disabled={product.Stock < 1 ? true : false}
-                 
+                 onClick={addToCartHandler}
                   >
                     Add to Cart
                   </button>

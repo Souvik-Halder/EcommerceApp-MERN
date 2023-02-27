@@ -8,18 +8,22 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { SpeedDial,SpeedDialAction } from '@mui/material';
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../../../actions/userAction';
 
 function UserOptions({user}) {
   const dispatch=useDispatch()
     const navigate=useNavigate()
+    const {cartItems}=useSelector(state=>state.cart)
 
     function dashboard(){
         navigate('/dashboard')
     }
     function account(){
         navigate('/account');
+    }
+    function cart(){
+      navigate('/cart')
     }
     function orders(){
         navigate('/orders');
@@ -32,15 +36,15 @@ function UserOptions({user}) {
     const options = [
         { icon: <ListAltIcon />, name: "Orders",func:orders  },
         { icon: <PersonIcon />, name: "Profile",func:account },
-        // {
-        //   icon: (
-        //     <ShoppingCartIcon
-        //       style={{ color:"unset" }}
-        //     />
-        //   ),
-        //   name: `Cart`,
-      
-        // },
+        {
+          icon: (
+            <ShoppingCartIcon
+              style={{ color:cartItems.length>0?"tomato":"unset" }}
+            />
+          ),
+          name: `Cart${cartItems.length}`,
+       func:cart
+        },
         { icon: <ExitToAppIcon />, name: "Logout",func:logoutUser  },
       ];
 

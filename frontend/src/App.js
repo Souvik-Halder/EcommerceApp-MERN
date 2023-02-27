@@ -19,7 +19,8 @@ import Profile from './components/User/Profile.js'
 import UpdateProfile from "./components/User/UpdateProfile.js"
 import UpdatePassword from "./components/User/UpdatePassword.js"
 import ForgotPassword from "./components/User/ForgotPassword.js"
-
+import ResetPassword from "./components/User/ResetPassword.js"
+import Cart from './components/Cart/Cart.js'
 axios.defaults.withCredentials=true
 function App() {
 
@@ -47,13 +48,14 @@ function App() {
       <Route path="/products" element={<Products/>}/>
       <Route path="/search" element={<Search />}/>
       <Route path="/products/:keyword" element={<Products/>}/>
+      <Route path="/password/reset/:token" element={<ResetPassword/>}/>
      { isAuthenticated && < Route path="/account" element={<Profile/>}/>
      }
       <Route path="/password/forgot" element={<ForgotPassword/>}/>
       <Route path='/login' element={<LoginSignUp/>}/>
       { isAuthenticated && < Route path="/me/update" element={<UpdateProfile/>}/>}
       { isAuthenticated && < Route path="/password/update" element={<UpdatePassword/>}/>}
-    
+    <Route path="/cart" element={<Cart/>}/>
       </Routes>
       <Footer/>
 

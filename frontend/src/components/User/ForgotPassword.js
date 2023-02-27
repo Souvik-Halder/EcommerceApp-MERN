@@ -8,15 +8,15 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, forgotPassword } from "../../actions/userAction";
 import { useAlert } from "react-alert";
-import { UPDATE_PROFILE_RESET } from "../../constants/userConstant";
+
 
 const ForgotPassword = () => {
     const dispatch=useDispatch();
     const alert=useAlert();
     const navigate=useNavigate();
 
-    const {error,message,loading}=useSelector((state)=>state.profile)
-
+    const { error,loading, message } = useSelector((state) => state.forgotPassword);
+  const successmessage=message.message
     const [email, setEmail] = useState("")
     const forgotPasswordSubmit = (e) => {
         e.preventDefault();
@@ -25,6 +25,7 @@ const ForgotPassword = () => {
     
         myForm.set("email", email);
         dispatch(forgotPassword(myForm));
+    
       };
       useEffect(() => {
         
@@ -32,12 +33,13 @@ const ForgotPassword = () => {
           alert.error(error);
           dispatch(clearErrors());
         }
-    
-        if (message) {
-          alert.success(message);
-        
+        if(successmessage){
+          alert.success(successmessage)
+          console.log(message.resetPasswordUrl)
+         navigate(message.resetPasswordUrl)
         }
-      }, [dispatch, error, alert, message]);
+       
+      }, [dispatch, error, alert,message]);
     
   return (
     <>
