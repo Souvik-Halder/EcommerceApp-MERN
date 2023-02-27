@@ -17,6 +17,9 @@ import "./Payment.css";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import EventIcon from "@mui/icons-material/Event";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import { useNavigate } from "react-router-dom";
+import { clearErrors } from "../../actions/productAction";
+import { createOrder } from "../../actions/orderAction";
 
 
 const Payment = ({ history }) => {
@@ -27,13 +30,12 @@ const Payment = ({ history }) => {
   const stripe = useStripe();
   const elements = useElements();
   const payBtn = useRef(null);
-
+const {error}=useSelector(state=>state.newOrder);
   const { shippingInfo, cartItems } = useSelector((state) => state.cart);
-  const { user } = useSelector((state) => state.user);
-  const { error } = useSelector((state) => state.newOrder);
 
+const {user}=useSelector(state=>state.user)
   const paymentData = {
-    amount: Math.round(orderInfo.totalPrice * 100),
+    amount: Math.round(orderInfo.totalPrice * 100),//it takes in paisa so we multiplied by 100
   };
 
   const order = {
@@ -44,7 +46,7 @@ const Payment = ({ history }) => {
     shippingPrice: orderInfo.shippingCharges,
     totalPrice: orderInfo.totalPrice,
   };
-
+const navigate=useNavigate()
   const submitHandler = async (e) => {
     e.preventDefault();
 
@@ -61,7 +63,7 @@ const Payment = ({ history }) => {
         paymentData,
         config
       );
-
+     
       const client_secret = data.client_secret;
 
       if (!stripe || !elements) return;
@@ -94,8 +96,9 @@ const Payment = ({ history }) => {
             status: result.paymentIntent.status,
           };
 
-        //   dispatch(createOrder(order));
-          history.push("/success");
+           dispatch(createOrder(order));
+          console.log(result.paymentIntent)
+        navigate("/success");
         } else {
           alert.error("There's some issue while processing payment ");
         }
@@ -105,11 +108,10 @@ const Payment = ({ history }) => {
       alert.error(error.response.data.message);
     }
   };
-
   useEffect(() => {
     if (error) {
       alert.error(error);
-    //   dispatch(clearErrors());
+      dispatch(clearErrors());
     }
   }, [dispatch, error, alert]);
 

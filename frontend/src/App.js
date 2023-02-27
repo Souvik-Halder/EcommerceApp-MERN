@@ -11,7 +11,7 @@ import Products from './components/Product/Products.js'
 import Search from "./components/Product/Search.js"
 import LoginSignUp from './components/User/LoginSignUp';
 import axios from 'axios';
-
+import { loadStripe } from "@stripe/stripe-js";
 import Shipping from "./components/Cart/Shipping.js"
 import UserOptions from './components/layout/Header/UserOptions.js'
 import store  from'./store';
@@ -25,12 +25,21 @@ import ConfirmOrder from './components/Cart/ConfirmOrder.js'
  import Payment from "./components/Cart/Payment.js"
 import ResetPassword from "./components/User/ResetPassword.js"
 import Cart from './components/Cart/Cart.js'
+import OrderSuccess from './components/OrderSuccess.js'
+import { Elements } from '@stripe/react-stripe-js';
 axios.defaults.withCredentials=true
 function App() {
+  const [stripeApiKey, setStripeApiKey] = useState("");
 
- 
+
+  //The function to get the stripe key
+  async function getStripeApiKey() {
+    const { data } = await axios.get("http://localhost:4000/api/v1/stripeapikey");
+    console.log(data)
+    setStripeApiKey(data.stripeApiKey);
+  }
   const {user,isAuthenticated}=useSelector(state=>state.user)
-
+  const stripePromise = loadStripe(stripeApiKey);
 
 useEffect(()=>{
     WebFont.load({
@@ -38,8 +47,9 @@ useEffect(()=>{
         families:["Roboto","Droid sans","Chilanka"]
       }
     })
- 
+
     store.dispatch(laodUser())
+    getStripeApiKey()
 
   },[])
   
@@ -48,6 +58,7 @@ useEffect(()=>{
     <>
  
     <Router>
+    <Elements stripe={stripePromise}>
       <Header/>
       {isAuthenticated && <UserOptions user={user}/>}
       <Routes>
@@ -71,15 +82,17 @@ useEffect(()=>{
     
     { isAuthenticated && < Route path="/process/payment" element={<Payment/>}/>
      }
+      { isAuthenticated && < Route path="/success" element={<OrderSuccess/>}/>
+     }
      
     <Route path="/cart" element={<Cart/>}/>
 
       </Routes>
       <Footer/>
 
-    
+      </Elements>
       </Router>
-
+   
       </>
   );
 }
