@@ -72,7 +72,7 @@ const Products = () => {
           </div>
 
           {/* Filter will be applied when we search for that so the below code is for that */}
-          {keyword && <div className='filterBox'>
+          { <div className='filterBox'>
                   <Typography> Price</Typography>
                   <Slider 
                   value={price}
