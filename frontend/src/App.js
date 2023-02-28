@@ -8,6 +8,7 @@ import Footer from './components/layout/Footer/Footer';
 import Home from './components/Home/Home.js';
 import ProductDetails from './components/Product/ProductDetails.js';
 import Products from './components/Product/Products.js'
+import OrderDetails from './components/Order/OrderDetails.js'
 import Search from "./components/Product/Search.js"
 import LoginSignUp from './components/User/LoginSignUp';
 import axios from 'axios';
@@ -28,6 +29,7 @@ import ResetPassword from "./components/User/ResetPassword.js"
 import Cart from './components/Cart/Cart.js'
 import OrderSuccess from './components/Cart/OrderSuccess.js'
 import { Elements } from '@stripe/react-stripe-js';
+
 axios.defaults.withCredentials=true
 function App() {
   const [stripeApiKey, setStripeApiKey] = useState("");
@@ -60,6 +62,7 @@ useEffect(()=>{
  
     <Router>
     <Elements stripe={stripePromise}>
+
       <Header/>
       {isAuthenticated && <UserOptions user={user}/>}
       <Routes>
@@ -80,7 +83,8 @@ useEffect(()=>{
      }
      { isAuthenticated && < Route path="/order/confirm" element={<ConfirmOrder/>}/>
      }
-    
+    { isAuthenticated && < Route path="/order/:id" element={<OrderDetails/>}/>
+     }
     { isAuthenticated && < Route path="/process/payment" element={<Payment/>}/>
      }
       { isAuthenticated && < Route path="/success" element={<OrderSuccess/>}/>
