@@ -50,7 +50,8 @@ const [comment, setComment] = useState("")
   const options = {
     value:product.ratings,
     readOnly: true,
-    precision: 0.5,
+    isHalf:true,
+    size:"large",
   };
 
 const addToCartHandler=()=>{
@@ -84,7 +85,7 @@ const reviewSubmitHandler=()=>{
     }
     dispatch(getProductDetails(id));
 
-  }, [dispatch,alert ,error,id]);
+  }, [dispatch,alert ,error,id,success,reviewError]);
 
 
 
@@ -112,7 +113,7 @@ const reviewSubmitHandler=()=>{
             <p>Product # {product._id}</p>
           </div>
           <div className="detailsBlock-2">
-            <ReactStars {...options} />
+            <Rating {...options} />
                 
                 <span className="detailsBlock-2-span">
                   {" "}

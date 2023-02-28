@@ -3,21 +3,42 @@ const Errorhandler = require('../utils/errorHandler');
 const catchAsyncErrors=require('../middlewares/catchAsyncErrors');
 const Apifeatures = require('../utils/apifeatures');
 
-
+const cloudinary=require('cloudinary')
 
 //Create Product --Admin
-exports.createProduct =catchAsyncErrors( async(req,res,next)=>{
 
-    //we are going to keep track that who are creating the poduct so for that
-    req.body.user=req.user.id;
-
-    const product=await Product.create(req.body);
+exports.createProduct = catchAsyncErrors(async (req, res, next) => {
+    let images = [];
+  
+    if (typeof req.body.images === "string") {
+      images.push(req.body.images);
+    } else {
+      images = req.body.images;
+    }
+  
+    const imagesLinks = [];
+  
+    for (let i = 0; i < images.length; i++) {
+      const result = await cloudinary.v2.uploader.upload(images[i], {
+        folder: "products",
+      });
+  
+      imagesLinks.push({
+        public_id: result.public_id,
+        url: result.secure_url,
+      });
+    }
+  
+    req.body.images = imagesLinks;
+    req.body.user = req.user.id;
+  
+    const product = await Product.create(req.body);
+    console.log(product)
     res.status(201).json({
-        success:true,
-        product
-    })
-}
-)
+      success: true,
+      product,
+    });
+  });
 
 //get All Products
 
@@ -88,6 +109,8 @@ exports.getProductDetails=catchAsyncErrors( async(req,res,next)=>{
     })
 }
 )
+
+
 
 //Create new review or update the review
 exports.createProductReview=catchAsyncErrors(async(req,res,next)=>{
@@ -173,3 +196,20 @@ exports.delteReiview=catchAsyncErrors(async(req,res,next)=>{
         message:"Review Delted Successfully"
       });
 })
+
+
+
+//get All Products -(admin)
+
+exports.getAdminProducts=catchAsyncErrors( async(req,res,next)=>{
+
+   const products=await Product.find();
+
+
+    res.status(200).json({
+        success:true,
+        products,
+        
+    })
+}
+)

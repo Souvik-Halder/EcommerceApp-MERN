@@ -9,6 +9,8 @@ import Home from './components/Home/Home.js';
 import ProductDetails from './components/Product/ProductDetails.js';
 import Products from './components/Product/Products.js'
 import OrderDetails from './components/Order/OrderDetails.js'
+import ProductList from './components/Admin/ProductList.js'
+import UserList from './components/Admin/UserList.js'
 import Search from "./components/Product/Search.js"
 import LoginSignUp from './components/User/LoginSignUp';
 import axios from 'axios';
@@ -19,6 +21,7 @@ import store  from'./store';
 import { laodUser } from './actions/userAction';
 import { useSelector } from 'react-redux';
 import Profile from './components/User/Profile.js'
+import OrderList from './components/Admin/OrderList.js'
 import UpdateProfile from "./components/User/UpdateProfile.js"
 import UpdatePassword from "./components/User/UpdatePassword.js"
 import ForgotPassword from "./components/User/ForgotPassword.js"
@@ -29,9 +32,12 @@ import ResetPassword from "./components/User/ResetPassword.js"
 import Cart from './components/Cart/Cart.js'
 import OrderSuccess from './components/Cart/OrderSuccess.js'
 import { Elements } from '@stripe/react-stripe-js';
+import Dashboard from './components/Admin/Dashboard.js';
+import NewProduct from './components/Admin/NewProduct';
 
 axios.defaults.withCredentials=true
 function App() {
+  const isAdmin=true;
   const [stripeApiKey, setStripeApiKey] = useState("");
 
 
@@ -91,14 +97,24 @@ useEffect(()=>{
      }
      { isAuthenticated && < Route path="/orders" element={<MyOrders/>}/>
      }
+      { isAuthenticated && isAdmin&&user.role==="admin"&& < Route path="/admin/dashboard" element={<Dashboard/>}/>
+     }
+      { isAuthenticated && isAdmin&&user.role==="admin"&& < Route path="/admin/products" element={<ProductList/>}/>
+     }
+      { isAuthenticated && isAdmin&&user.role==="admin"&& < Route path="/admin/orders" element={<OrderList/>}/>
+     }
+      { isAuthenticated && isAdmin&&user.role==="admin"&& < Route path="/admin/users" element={<UserList/>}/>
+     }
+     { isAuthenticated && isAdmin&&user.role==="admin"&& < Route path="/admin/product" element={<NewProduct/>}/>
+     }
     <Route path="/cart" element={<Cart/>}/>
 
       </Routes>
-      <Footer/>
+     
 
       </Elements>
       </Router>
-   
+      <Footer/>
       </>
   );
 }
