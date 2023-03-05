@@ -14,6 +14,7 @@ import UserList from './components/Admin/UserList.js'
 import Search from "./components/Product/Search.js"
 import LoginSignUp from './components/User/LoginSignUp';
 import axios from 'axios';
+import UpdateUser from './components/Admin/UpdateUser.js'
 import { loadStripe } from "@stripe/stripe-js";
 import ProcessOrder from './components/Admin/ProcessOrder.js'
 import Shipping from "./components/Cart/Shipping.js"
@@ -112,6 +113,10 @@ useEffect(()=>{
      }
       { isAuthenticated && isAdmin&&user.role==="admin"&& < Route path="/admin/order/:id" element={<ProcessOrder/>}/>
      }
+      { isAuthenticated && isAdmin&&user.role==="admin"&& < Route path="/admin/user/:id" element={<UpdateUser/>}/>
+     }
+       
+     
     <Route path="/cart" element={<Cart/>}/>
 
       </Routes>

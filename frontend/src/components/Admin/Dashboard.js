@@ -32,6 +32,7 @@ const Dashboard = () => {
   const dispatch = useDispatch();
 
   const { products } = useSelector((state) => state.products);
+  const {orders}=useSelector(state=>state.allOrders)
 
   let outOfStock = 0;
 
@@ -41,18 +42,18 @@ const Dashboard = () => {
         outOfStock += 1;
       }
     });
-const totalAmount=0;
+
   useEffect(() => {
     dispatch(getAdminProduct());
-    // dispatch(getAllOrders());
+    dispatch(getAllOrders());
     // dispatch(getAllUsers());
   }, []);
 
-//   let totalAmount = 0;
-//   orders &&
-//     orders.forEach((item) => {
-//       totalAmount += item.totalPrice;
-//     });
+  let totalAmount = 0;
+  orders &&
+    orders.forEach((item) => {
+      totalAmount += item.totalPrice;
+    });
 const options = {
     responsive: true,
     plugins: {
@@ -70,7 +71,7 @@ const options = {
     datasets: [
       {
         label: "TOTAL AMOUNT",
-        data: [0, 4000],
+        data: [0, totalAmount],
         borderColor: 'rgb(255, 99, 132)',
       backgroundColor: 'rgba(255, 99, 132, 0.5)',
        
@@ -102,7 +103,7 @@ const options = {
       <div className="dashboardSummary">
         <div>
           <p>
-            {/* Total Amount <br /> ₹{totalAmount} */}
+            Total Amount <br /> ₹{totalAmount}
           </p>
         </div>
         <div className="dashboardSummaryBox2">
@@ -112,7 +113,7 @@ const options = {
           </Link>
           <Link to="/admin/orders">
             <p>Orders</p>
-            {/* <p>{orders && orders.length}</p> */} <p>hi</p>
+            <p>{orders && orders.length}</p>
           </Link>
           <Link to="/admin/users">
             <p>Users</p>

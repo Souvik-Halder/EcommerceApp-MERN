@@ -2,13 +2,16 @@ import React, { Fragment, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import "./productList.css";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@mui/material";
 import MetaData from "../layout/Metadata";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SideBar from "./Sidebar";
+import { deleteUser, getAllUsers } from "../../actions/userAction";
+import { clearErrors } from "../../actions/productAction";
+import { DELETE_USER_RESET } from "../../constants/userConstant";
 
 
 const UsersList = ({ history }) => {
@@ -16,16 +19,37 @@ const UsersList = ({ history }) => {
 
   const alert = useAlert();
 
-    const deleteUserHandler=()=>{
-        console.log("ji")
-    }
+  const { error, users } = useSelector((state) => state.allUsers);
+const navigate=useNavigate();
+  const {
+    error: deleteError,
+    isDeleted,
+    message,
+  } = useSelector((state) => state.profile);
 
- 
+  const deleteUserHandler = (id) => {
+    dispatch(deleteUser(id));
+  };
 
   useEffect(() => {
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
 
-  
-  }, []);
+    if (deleteError) {
+      alert.error(deleteError);
+      dispatch(clearErrors());
+    }
+
+    if (isDeleted) {
+      alert.success(message);
+     navigate("/admin/users");
+      dispatch({ type: DELETE_USER_RESET });
+    }
+
+    dispatch(getAllUsers());
+  }, [dispatch, alert, error, deleteError, navigate, isDeleted, message]);
 
   const columns = [
     { field: "id", headerName: "User ID", minWidth: 180, flex: 0.8 },
@@ -85,15 +109,15 @@ const UsersList = ({ history }) => {
 
   const rows = [];
 
-//   users &&
-//     users.forEach((item) => {
-//       rows.push({
-//         id: item._id,
-//         role: item.role,
-//         email: item.email,
-//         name: item.name,
-//       });
-//     });
+  users &&
+    users.forEach((item) => {
+      rows.push({
+        id: item._id,
+        role: item.role,
+        email: item.email,
+        name: item.name,
+      });
+    });
 
   return (
     <Fragment>
