@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import "./productList.css";
 import { useSelector, useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAlert } from "react-alert";
 import { Button } from "@mui/material";
 import MetaData from "../layout/Metadata";
@@ -10,24 +10,45 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SideBar from "./Sidebar";
 import {
-
+  deleteOrder,
+  getAllOrders,
+  clearErrors,
 } from "../../actions/orderAction";
-
+import { DELETE_ORDER_RESET } from "../../constants/orderConstants";
 
 const OrderList = ({ history }) => {
   const dispatch = useDispatch();
 
   const alert = useAlert();
 
- 
+  const { error, orders } = useSelector((state) => state.allOrders);
+  const navigate=useNavigate()
+
+  const { error: deleteError, isDeleted } = useSelector((state) => state.order);
 
   const deleteOrderHandler = (id) => {
- 
+    dispatch(deleteOrder(id));
   };
 
   useEffect(() => {
-  
-  }, []);
+    if (error) {
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+
+    if (deleteError) {
+      alert.error(deleteError);
+      dispatch(clearErrors());
+    }
+
+    if (isDeleted) {
+      alert.success("Order Deleted Successfully");
+     navigate("/admin/orders");
+      dispatch({ type: DELETE_ORDER_RESET });
+    }
+
+    dispatch(getAllOrders());
+  }, [dispatch, alert, error, deleteError, navigate, isDeleted]);
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 300, flex: 1 },
@@ -88,15 +109,15 @@ const OrderList = ({ history }) => {
 
   const rows = [];
 
-//   orders &&
-//     orders.forEach((item) => {
-//       rows.push({
-//         id: item._id,
-//         itemsQty: item.orderItems.length,
-//         amount: item.totalPrice,
-//         status: item.orderStatus,
-//       });
-//     });
+  orders &&
+    orders.forEach((item) => {
+      rows.push({
+        id: item._id,
+        itemsQty: item.orderItems.length,
+        amount: item.totalPrice,
+        status: item.orderStatus,
+      });
+    });
 
   return (
     <Fragment>
@@ -120,5 +141,4 @@ const OrderList = ({ history }) => {
     </Fragment>
   );
 };
-
 export default OrderList;

@@ -15,6 +15,7 @@ import Search from "./components/Product/Search.js"
 import LoginSignUp from './components/User/LoginSignUp';
 import axios from 'axios';
 import { loadStripe } from "@stripe/stripe-js";
+import ProcessOrder from './components/Admin/ProcessOrder.js'
 import Shipping from "./components/Cart/Shipping.js"
 import UserOptions from './components/layout/Header/UserOptions.js'
 import store  from'./store';
@@ -34,7 +35,7 @@ import OrderSuccess from './components/Cart/OrderSuccess.js'
 import { Elements } from '@stripe/react-stripe-js';
 import Dashboard from './components/Admin/Dashboard.js';
 import NewProduct from './components/Admin/NewProduct';
-
+import UpdateProduct from './components/Admin/UpdateProduct.js'
 axios.defaults.withCredentials=true
 function App() {
   const isAdmin=true;
@@ -106,6 +107,10 @@ useEffect(()=>{
       { isAuthenticated && isAdmin&&user.role==="admin"&& < Route path="/admin/users" element={<UserList/>}/>
      }
      { isAuthenticated && isAdmin&&user.role==="admin"&& < Route path="/admin/product" element={<NewProduct/>}/>
+     }
+        { isAuthenticated && isAdmin&&user.role==="admin"&& < Route path="/admin/product/:id" element={<UpdateProduct/>}/>
+     }
+      { isAuthenticated && isAdmin&&user.role==="admin"&& < Route path="/admin/order/:id" element={<ProcessOrder/>}/>
      }
     <Route path="/cart" element={<Cart/>}/>
 
