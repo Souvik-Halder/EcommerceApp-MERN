@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes,Route } from 'react-router-dom'
 import WebFont from 'webfontloader';
 import React,{useState,useEffect} from 'react';
 import Footer from './components/layout/Footer/Footer';
+import ProductReviews from './components/Admin/ProductReviews.js'
 import Home from './components/Home/Home.js';
 import ProductDetails from './components/Product/ProductDetails.js';
 import Products from './components/Product/Products.js'
@@ -113,9 +114,11 @@ useEffect(()=>{
      }
       { isAuthenticated && isAdmin&&user.role==="admin"&& < Route path="/admin/order/:id" element={<ProcessOrder/>}/>
      }
+     
       { isAuthenticated && isAdmin&&user.role==="admin"&& < Route path="/admin/user/:id" element={<UpdateUser/>}/>
      }
-       
+       { isAuthenticated && isAdmin&&user.role==="admin"&& <Route path="/admin/reviews" element={<ProductReviews/>}/>
+     }
      
     <Route path="/cart" element={<Cart/>}/>
 

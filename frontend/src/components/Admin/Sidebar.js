@@ -14,7 +14,12 @@ import RateReviewIcon from "@mui/icons-material//RateReview";
 
 const Sidebar = () => {
   return (
-    <div>Side bar section
+    <div className="hi">
+      <Link to={`/admin/products`}>Products</Link>
+      <Link to={`/admin/orders`}>Orders</Link>
+      <Link to={`/admin/users`}>Users</Link>
+      <Link to={`/admin/reviews`}>Reviews</Link>
+
     </div>
   );
 };

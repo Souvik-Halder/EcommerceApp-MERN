@@ -109,7 +109,7 @@ export const newReview = (reviewData) => async (dispatch) => {
       dispatch({ type: ALL_REVIEW_REQUEST });
   
       const { data } = await axios.get(`http://localhost:4000/api/v1/reviews?id=${id}`);
-  
+      console.log(data)
       dispatch({
         type: ALL_REVIEW_SUCCESS,
         payload: data.reviews,
